@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geography Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 80%;
+      max-width: 800px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .question p {
+      font-size: 1.1em;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+    .options {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .options li {
+      margin-bottom: 10px;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    #result h2 {
+      margin-top: 0;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div id="quiz-container"></div>
+  <button onclick="submitQuiz()">Submit Quiz</button>
+  <div id="result"></div>
+</div>
+
+<script>
+  const questions = [
+    {
+      question: "1. During the Under 20 World Cup Soccer Competition in South Korea Republic (1200E) a match commenced at 15:00 hours. What was the time in Zambia (300E) when the match commenced?",
+      options: ["A. 06:00 hours", "B. 07:00 hours", "C. 08:00 hours", "D. 09:00 hours"],
+      answer: "C. 08:00 hours"
+    },
+    {
+      question: "2. What is the approximate straight line distance between Cairo (30° N) and Bulawayo (20°S)?",
+      options: ["A. 600 km", "B. 1 600 km", "C. 3 300 km", "D. 5 550 km"],
+      answer: "C. 3 300 km"
+    },
+    {
+      question: "3. Study the diagram below. The diagram above represents…",
+      options: ["A. A barograph", "B. a wind rose", "C. a wind vane", "D. an okta"],
+      answer: "B. a wind rose"
+    },
+    {
+      question: "4. The permanent tilt of the earth's axis and the revolution of the Earth in its orbit together cause…",
+      options: ["A. Day and night", "B. Varying length of the day and night at different times of the year.", "C. Difference in the time between places on the different meridians.", "D. Deflection of the wind."],
+      answer: "B. Varying length of the day and night at different times of the year."
+    },
+    {
+      question: "5. Study the diagram below. What is the likely cause of the movement of the materials shown above?",
+      options: ["A. Earthquake", "B. Frost action", "C. Running water", "D. Wind"],
+      answer: "C. Running water"
+    },
+    {
+      question: "6. The diagram below shows volcanic features. Which order correctly represents the features P, Q, R, and S?",
+      options: ["A. Laccolith Batholith Sill Phacolith", "B. Batholith Laccolith Phacolith Sill", "C. Sill Phacolith Batholith Laccolith", "D. Phacolith Batholith Laccolith Sill"],
+      answer: "B. Batholith Laccolith Phacolith Sill"
+    },
+    {
+      question: "7. Which of the following type of weathering is common in temperate regions and in high mountains?",
+      options: ["A. Exfoliation", "B. Frost action", "C. Oxidation", "D. Hydration"],
+      answer: "B. Frost action"
+    },
+    {
+      question: "8. To improve soil fertility, the most likely farming technique that farmers practicing monoculture may resort to is…",
+      options: ["A. Contour ploughing", "B. Crop rotation", "C. Terracing", "D. The growing of cover crops"],
+      answer: "B. Crop rotation"
+    },
+    {
+      question: "9. Study the diagram below. What feature is represented by the diagram above?",
+      options: ["A. Anticline", "B. Horst", "C. Syncline", "D. Valley"],
+      answer: "C. Syncline"
+    },
+    {
+      question: "10. Bulging fences, walls and outward bending tree trunks cause a mass movement called …",
+      options: ["A. Landslide", "B. Mudflow", "C. Soil creep", "D. Rock fall"],
+      answer: "C. Soil creep"
+    },
+    {
+      question: "11. The diagram below shows the changes in the size of the load by a river from its source to its mouth. Which of the points A,B,C or D represents the plain course of a river?",
+      options: ["A", "B", "C", "D"],
+      answer: "D"
+    },
+    {
+      question: "12. Study the diagram below. What type of drainage pattern is shown above?",
+      options: ["A. Dendritic", "B. Radial", "C. Rectangular", "D. Trellis"],
+      answer: "B. Radial"
+    },
+    {
+      question: "13. A high flat land that results when a large piece of land is uplifted through earth movements is a .",
+      options: ["A. Dissected plateau", "B. Residual plateau", "C. Tectonic plateau", "D. Volcanic plateau"],
+      answer: "C. Tectonic plateau"
+    },
+    {
+      question: "14. Study the map of Africa below. What environmental hazard has affected the shaded area?",
+      options: ["A. Acid rain", "B. Drought", "C. floods", "D. Tropical storms"],
+      answer: "B. Drought"
+    },
+    {
+      question: "15. Which of the following represents a cyclone in the Southern Hemisphere?",
+      options: ["A", "B", "C", "D"],
+      answer: "B"
+    },
+    {
+      question: "16. At a certain time, the dry and wet bulb thermometers had the same readings. This implied that",
+      options: ["A. Relative humidity was very low", "B. The temperature was stable for some time", "C. The muslin cloth on the wet bulb thermometer had expired.", "D. The air was saturated with water vapour."],
+      answer: "D. The air was saturated with water vapour."
+    },
+    {
+      question: "17. Which of the following farming techniques is recommended in hilly areas?",
+      options: ["A. Fallowing", "B. Shifting cultivation", "C. Strip farming", "D. Terracing"],
+      answer: "D. Terracing"
+    },
+    {
+      question: "18. Study the diagram below. Which one of the settlements A, B, C and D would experience the highest atmospheric pressure?",
+      options: ["A", "B", "C", "D"],
+      answer: "D"
+    },
+    {
+      question: "19. An Isoneph is a line drawn on the map joining places with equal …",
+      options: ["A. Sunshine", "B. Atmospheric pressure", "C. Rainfall", "D. Cloud cover"],
+      answer: "D. Cloud cover"
+    },
+    {
+      question: "20. Fold Mountains are also known as mountains of…",
+      options: ["A. Accumulation", "B. Denudation", "C. Deposition", "D. Elevation"],
+      answer: "D. Elevation"
+    }
+  ];
+
+  function buildQuiz() {
+    const container = document.getElementById('quiz-container');
+    questions.forEach((q, index) => {
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question';
+      questionDiv.innerHTML = `<p>${q.question}</p>`;
+      const optionsList = document.createElement('ul');
+      optionsList.className = 'options';
+      q.options.forEach((option, idx) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<label><input type="radio" name="question${index}" value="${option}">${option}</label>`;
+        optionsList.appendChild(listItem);
+      });
+      questionDiv.appendChild(optionsList);
+      container.appendChild(questionDiv);
+    });
+  }
+
+  function submitQuiz() {
+    const answers = [];
+    let score = 0;
+    questions.forEach((q, index) => {
+      const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+      if (selectedOption) {
+        answers.push(selectedOption.value);
+        if (selectedOption.value === q.answer) {
+          score++;
+        }
+      } else {
+        answers.push(null);
+      }
+    });
+    showResult(answers, score);
+  }
+
+  function showResult(answers, score) {
+    const resultContainer = document.getElementById('result');
+    resultContainer.innerHTML = `<h2>Quiz Result</h2><p>Your score: ${score} out of ${questions.length}</p>`;
+    questions.forEach((q, index) => {
+      const resultDiv = document.createElement('div');
+      resultDiv.innerHTML = `<p><strong>${q.question}</strong></p>`;
+      const selectedOption = answers[index];
+      if (selectedOption === q.answer) {
+        resultDiv.innerHTML += '<p class="correct">Correct</p>';
+      } else {
+        resultDiv.innerHTML += `<p class="incorrect">Incorrect. Correct answer: ${q.answer}</p>`;
+      }
+      resultContainer.appendChild(resultDiv);
+    });
+  }
+
+  buildQuiz();
+</script>
+
+</body>
+</html>
+
